@@ -3,7 +3,6 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { MongoClient, ObjectId } from "mongodb";
 import "https://deno.land/x/dotenv/load.ts";
 
-// Configuración de MongoDB
 const MONGO_URL = Deno.env.get("MONGO_URL");
 if (!MONGO_URL) {
   console.error("El link de MongoDB no funciona");
@@ -18,7 +17,7 @@ const db = client.db("vehicles");
 const vehiclesCollection = db.collection("vehiculos");
 const partsCollection = db.collection("repuestos");
 
-// Definición del esquema
+// ESQUEMA
 const typeDefs = `#graphql
   type Vehicle {
     id: ID!
@@ -53,7 +52,7 @@ const typeDefs = `#graphql
   }
 `;
 
-// Resolvers
+// RESOLVERS
 const resolvers = {
   Query: {
     vehicles: async () => {
@@ -170,7 +169,7 @@ const resolvers = {
   },
 };
 
-// Configuración del servidor Apollo
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
