@@ -3,6 +3,7 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { MongoClient, ObjectId } from "mongodb";
 import "https://deno.land/x/dotenv/load.ts";
 
+// CONEXION A LA BASE DE DATOS
 const MONGO_URL = Deno.env.get("MONGO_URL");
 if (!MONGO_URL) {
   console.error("El link de MongoDB no funciona");
@@ -17,7 +18,7 @@ const db = client.db("vehicles");
 const vehiclesCollection = db.collection("vehiculos");
 const partsCollection = db.collection("repuestos");
 
-// ESQUEMA
+// ESQUEMA GRAPHQL
 const typeDefs = `#graphql
   type Vehicle {
     id: ID!
@@ -52,7 +53,7 @@ const typeDefs = `#graphql
   }
 `;
 
-// RESOLVERS
+// RESOLVERS PARA GRAPHQL
 const resolvers = {
   Query: {
     vehicles: async () => {
@@ -169,7 +170,7 @@ const resolvers = {
   },
 };
 
-
+// CONFIGURACION PARA APOLLO SERVER
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -179,4 +180,5 @@ const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },
 });
 
+// URL READY PARA PROBAR
 console.log(`🚀 Servidor listo en: ${url}`);
